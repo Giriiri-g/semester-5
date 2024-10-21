@@ -1,0 +1,9 @@
+# Goal definition
+int32 a
+int32 b
+---
+# Result definition
+int32 sum
+---
+# Feedback definition
+int32 progress
