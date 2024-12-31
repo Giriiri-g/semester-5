@@ -1,0 +1,76 @@
+\begin{frame}
+	\myheading{Appendix}
+\end{frame}
+
+\begin{frame}
+	\begin{overlayarea}{\textwidth}{\textheight}
+		\begin{itemize}
+			\item<1-> To prove: The below two equations are equivalent
+				\begin{align*}
+					\omega_t & = (I+\eta Q \Lambda Q^{T} )\omega_{t-1}-\eta Q \Lambda Q^{T} \omega^{*}\\
+					\omega_t & = Q[I-(I-\varepsilon \Lambda)^{t}]Q^{T}\omega^{*} 
+				\end{align*}
+			\item<2-> Proof by induction:
+			\item<3-> Base case: $t$ = 1 and $\omega_0$=0:
+			\item<4-> $\omega_1$ according to the first equation:
+				\begin{align*}
+					\omega_1 & = (I - \eta Q\Lambda Q^T) \omega_0 + \eta Q\Lambda Q^T \omega^* \\
+					         & = \eta Q\Lambda Q^T \omega^*
+				\end{align*}
+			\item<5-> $\omega_1$ according to the second equation:
+                \begin{align*}
+					\omega_1 & = Q(I - (I - \eta \Lambda)^1)Q^T w^*\\
+                  			 & = \eta Q\Lambda Q^T w^*
+                \end{align*}
+        \end{itemize}
+	\end{overlayarea}
+\end{frame}
+
+\begin{frame}
+	\begin{overlayarea}{\textwidth}{\textheight}
+		\begin{itemize}
+			\item<1-> Induction step: Let the two equations be equivalent for $t^{th}$ step
+              \begin{align*}
+                \therefore \omega_t & = (I+\eta Q \Lambda Q^{T} )\omega_{t-1}-\eta Q \Lambda Q^{T} \omega^{*}\\
+				                    & = Q[I-(I-\varepsilon \Lambda)^{t}]Q^{T}\omega^{*} 
+              \end{align*}
+            \item<2-> Proof that this will hold for $(t+1)^{th}$ step
+			\begin{align*}
+				\onslide<3-> {\omega_{t+1} & = (I - \eta Q\Lambda Q^T) \omega_{t} + \eta Q\Lambda Q^T \omega^*\\}
+				\only<4>{& (\textcolor{red}{\text{using }\omega_t = Q[I-(I-\varepsilon \Lambda)^{t}]Q^{T}\omega^{*}}) \\}
+				\only<5->{& (\text{using }\omega_t = Q[I-(I-\varepsilon \Lambda)^{t}]Q^{T}\omega^{*}) \\}
+				\only<5>{& = (I - \eta Q\Lambda Q^T) \textcolor{red}{Q(I - (I - \eta \Lambda)^t)Q^T \omega^*} + \eta Q\Lambda Q^T \omega^* \\}
+				\only<6>{& = \textcolor{red}{(I - \eta Q\Lambda Q^T)} Q(I - (I - \eta \Lambda)^t)Q^T \omega^* + \eta Q\Lambda Q^T \omega^* \\} 
+				\only<7->{& = (I - \eta Q\Lambda Q^T) Q(I - (I - \eta \Lambda)^t)Q^T \omega^* + \eta Q\Lambda Q^T \omega^* \\} 
+				\only<6->{&(\text{Opening this bracket})\\}
+				\onslide<7-> {& = \textcolor{red}{I}Q(I - (I - \eta \Lambda)^t)Q^T \omega^* - \textcolor{red}{\eta Q\Lambda Q^T}Q (I - (I - \eta \Lambda)^t)Q^T \omega^* + \eta Q\Lambda Q^T \omega^*\\}
+				\onslide<8-> {& = Q(I - (I - \eta \Lambda)^t)Q^T \omega^* - \eta Q\Lambda Q^TQ (I - (I - \eta \Lambda)^t)Q^T \omega^* + \eta Q\Lambda Q^T \omega^*\\}
+			\end{align*}
+        \end{itemize}
+	\end{overlayarea}
+\end{frame}
+
+\begin{frame}
+	\begin{overlayarea}{\textwidth}{\textheight}
+        \begin{itemize}
+            \item Continuing
+              \begin{align*}
+                \onslide<1-> {\omega_{t+1} & = Q(I - (I - \eta \Lambda)^t)Q^T \omega^* - \eta Q\Lambda Q^TQ (I - (I - \eta \Lambda)^t)Q^T \omega^* + \eta Q\Lambda Q^T \omega^*\\}
+				\onslide<2-> {& = Q(I - (I - \eta \Lambda)^t)Q^T \omega^* - \eta Q\Lambda(I - (I - \eta \Lambda)^t)Q^T \omega^* + \eta Q\Lambda Q^T \omega^* \textcolor{red}{(\because Q^TQ=I)}\\}
+				\only<3> {& = Q(I - (I - \eta \Lambda)^t)\textcolor{red}{Q^T \omega^*} - \eta Q\Lambda(I - (I - \eta \Lambda)^t)\textcolor{red}{Q^T \omega^*} + \eta Q\Lambda \textcolor{red}{Q^T \omega^*} \\}
+				\only<3> {& = Q\big[(I - (I - \eta \Lambda)^t) - \eta \Lambda(I - (I - \eta \Lambda)^t) + \eta \Lambda\big] \textcolor{red}{Q^T \omega^*}\\}
+				\only<4-> {& = Q(I - (I - \eta \Lambda)^t)Q^T \omega^* - \eta Q\Lambda(I - (I - \eta \Lambda)^t)Q^T \omega^* + \eta Q\Lambda Q^T \omega^* \\}
+				\only<4> {& = Q\big[(I - (I - \eta \Lambda)^t) - \eta \Lambda(I - (\textcolor{red}{I} - \eta \Lambda)^t) + \textcolor{red}{\eta \Lambda}\big] Q^T \omega^*\\}
+				\only<5-> {& = Q\big[(I - (I - \eta \Lambda)^t) - \eta \Lambda(I - (I - \eta \Lambda)^t) + \eta \Lambda\big] Q^T \omega^*\\}
+				\only<4> {& = Q\big[I - (I - \eta \Lambda)^t + \eta \Lambda(I - \eta \Lambda)^t\big] Q^T \omega^*\\}
+				\only<5> {& = Q\big[I - \textcolor{red}{(I - \eta \Lambda)^t} + \eta \Lambda \textcolor{red}{(I - \eta \Lambda)^t}\big] Q^T \omega^*\\}
+				\only<6-> {& = Q\big[I - (I - \eta \Lambda)^t + \eta \Lambda (I - \eta \Lambda)^t\big] Q^T \omega^*\\}
+				\only<5> {& = Q\big[I - \textcolor{red}{(I - \eta \Lambda)^t} (I-\eta \Lambda)\big] Q^T \omega^*\\}
+				\only<6-> {& = Q\big[I - (I - \eta \Lambda)^t (I-\eta \Lambda)\big] Q^T \omega^*\\}
+				\only<6-> {& = Q(I - (I - \eta \Lambda)^{t+1}) Q^T \omega^*}
+			\end{align*}
+               \only<7-> {Hence, proved!}
+        \end{itemize}
+	\end{overlayarea}
+\end{frame}
+

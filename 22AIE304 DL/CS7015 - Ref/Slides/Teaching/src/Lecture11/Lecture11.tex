@@ -1,0 +1,290 @@
+\PassOptionsToClass{}{beamer}
+\documentclass[serif,aspectratio=169,dvipsnames]{beamer}
+\usepackage[utf8]{inputenc}
+
+%\StartShownPreambleCommands
+\usepackage{amsmath,esint}
+\usepackage{amssymb}
+\usepackage[british]{babel}
+\usepackage{multicol}
+\usetheme{Warsaw}
+\usecolortheme{rose}
+\usepackage[normalem]{ulem}
+%\usetheme{metropolis}
+%\usepackage{appendixnumberbeamer}
+
+%\StopShownPreambleCommands
+\usepackage{pgfplots}
+
+\usepackage{ mathrsfs }
+\usepackage{hyperref}
+
+\usepackage{gensymb}
+\usepackage{color}
+\usepackage{tkz-euclide}
+\usetkzobj{all}
+\usepackage{tkz-fct}  
+\usetikzlibrary{calc}
+\usepackage{ragged2e}
+\usepackage[ruled]{algorithm2e}
+\usepackage{tikz}
+\usepackage{animate}
+\usepackage{adjustbox}
+\usepackage[labelformat=empty]{caption}
+\usepackage{blindtext}
+\usepackage{biblatex}
+
+\usepackage{utils/dtklogos}
+\usepackage{utils/style}
+
+\usetikzlibrary{matrix,chains,positioning,decorations.pathreplacing,arrows} 
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{intersections}
+
+
+\makeatletter
+
+\DeclareMathOperator*{\minimize}{minimize}
+
+
+
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/\inserttotalframenumber
+}
+
+\titlegraphicii{}
+\setbeamertemplate{title page}
+{
+  \vspace{0.3in}
+  \vbox{}
+   %{\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\hfill\inserttitlegraphicii\par}
+  \begin{centering}
+    \begin{beamercolorbox}[sep=8pt,center]{title}
+      \usebeamerfont{title}\inserttitle\par%
+      \ifx\insertsubtitle\@empty%
+      \else%
+        \vskip0.25em%
+        {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+      \fi%     
+    \end{beamercolorbox}%
+    \vskip1em\par
+    \begin{beamercolorbox}[sep=8pt,center]{date}
+      \usebeamerfont{date}\insertdate
+    \end{beamercolorbox}%\vskip0.5em
+    \begin{beamercolorbox}[sep=8pt,center]{author}
+      \usebeamerfont{author}\insertauthor
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[sep=8pt,center]{institute}
+      \usebeamerfont{institute}\insertinstitute
+    \end{beamercolorbox}
+  \end{centering}
+  %\vfill
+}
+\makeatother
+
+\author{Mitesh M. Khapra}
+\title{CS7015 (Deep Learning) : Lecture 11}
+\subtitle{Convolutional Neural Networks, LeNet, AlexNet, ZF-Net, VGGNet, GoogLeNet and ResNet}
+\institute{Department of Computer Science and Engineering\\ Indian Institute of Technology Madras}
+\date{}
+\titlegraphic{\includegraphics[height=1cm,width=2cm]{images/iitm_logo.png}}
+
+\newcommand{\borderColor}{white}
+\newcommand{\forefillColor}{blue!20!black!30!green}
+\newcommand{\toprsidefillcolor}{green!40}
+
+\newcommand{\handmadecube}[5]{
+\pgfmathsetmacro{\width}{#1}
+\pgfmathsetmacro{\height}{#2}
+\pgfmathsetmacro{\x}{#4}
+\pgfmathsetmacro{\y}{#5}
+\pgfmathsetmacro{\ti}{#3}
+
+
+       \pgfmathsetmacro{\yfactor}{0.9}
+            \pgfmathsetmacro{\xfactor}{0.6}
+
+
+% % square
+\draw [-,draw=\borderColor] (\x-\width,\y) -- (\x,\y); % % x cahnge ->
+\draw [-,draw=\borderColor] (\x,\y) -- (\x,\y-\height); % % y change   |
+\draw [-,draw=\borderColor] (\x,\y-\height) -- (\x-\width,\y-\height); % % x change <-
+\draw [-,draw=\borderColor] (\x-\width,\y-\height) -- (\x-\width,\y); % % y change  |
+
+\draw  [draw=\borderColor,fill=\forefillColor] (\x-\width,\y)--(\x,\y) -- (\x,\y-\height) -- (\x-\width,\y-\height) --cycle ;
+
+\draw  [draw=\borderColor,fill=\toprsidefillcolor] (\x,\y) -- (\x+\xfactor*\ti,\y+\yfactor*\ti) -- (\x+\xfactor*\ti,\y+\yfactor*\ti-\height) -- (\x,\y-\height) --cycle ;
+
+\draw  [draw=\borderColor,fill=\toprsidefillcolor] (\x-\width,\y)--(\x,\y) -- (\x+\xfactor*\ti,\y+\yfactor*\ti) -- (\x+\xfactor*\ti-\width,\y+\yfactor*\ti) --cycle ;
+
+\draw [-,draw=\borderColor]   (\x,\y) -- (\x+\xfactor*\ti,\y+\yfactor*\ti);
+
+\draw [-,draw=\borderColor] (\x-\width,\y) -- (\x-\width+\xfactor*\ti,\y+\yfactor*\ti);
+
+\draw [-,draw=\borderColor] (\x-\width+\xfactor*\ti,\y+\yfactor*\ti) -- (\x+\xfactor*\ti,\y+\yfactor*\ti);
+
+\draw [-,draw=\borderColor] (\x+\xfactor*\ti,\y+\yfactor*\ti) -- (\x+\xfactor*\ti,\y+\yfactor*\ti-\height);
+
+\draw [-,draw=\borderColor] (\x,\y-\height) -- (\x+\xfactor*\ti,\y+\yfactor*\ti-\height);
+
+}
+
+
+\usetikzlibrary{svg.path}
+\usetikzlibrary{decorations.pathreplacing,decorations.markings}
+\newcounter{pos}
+\tikzset{
+  initcounter/.code={\setcounter{pos}{0}},
+  style between/.style n args={3}{
+    postaction={
+      initcounter,
+      decorate,
+      decoration={
+        show path construction,
+        curveto code={
+          \addtocounter{pos}{1}
+          \pgfmathtruncatemacro{\min}{#1 - 1}
+          \ifthenelse{\thepos < #2 \AND \thepos > \min}{
+            \draw[#3]
+            (\tikzinputsegmentfirst)
+            ..
+            controls (\tikzinputsegmentsupporta) and (\tikzinputsegmentsupportb)
+            ..
+            (\tikzinputsegmentlast);
+          }{}
+        }
+      }
+    },
+  },
+}
+
+\newcommand{\firstrowcolor}{black}
+\newcommand{\secondrowcolor}{black}
+\newcommand{\thirdrowcolor}{black}
+\newcommand{\fourrowcolor}{black}
+
+\begin{document}
+\newcommand{\tikzmark}[1]{\tikz[baseline,remember picture] \coordinate (#1) {};}
+
+\def\cuboid#1#2#3#4#5{
+	\begin{scope}
+		\edef\mycolor{#2}
+		\edef\depth{#3}
+		\edef\height{#4}
+		\edef\width{#5}
+		\draw[black,fill=\mycolor] #1 -- ++(-\depth,0,0) -- ++(0,-\height,0) -- ++(\depth,0,0) -- cycle #1 -- ++(0,0,-\width) -- ++(0,-\height,0) -- ++(0,0,\width) -- cycle  #1 -- ++(-\depth,0,0) -- ++(0,0,-\width) -- ++(\depth,0,0) -- cycle;
+	\end{scope}
+}
+\def\cuboidlabelmine#1#2#3#4#5#6#7#8{
+	\begin{scope}
+		\edef\mycolor{#2}
+		\edef\depth{#3}
+		\edef\height{#4}
+		\edef\width{#5}
+		\edef\depthlabel{#6}
+		\edef\heightlabel{#7}
+		\edef\widthlabel{#8}
+		\draw[black,fill=\mycolor] #1 -- ++(-\depth,0,0) -- ++(0,-\height,0) -- ++(\depth,0,0) node[pos=0.5,below] {\tiny \depthlabel} -- cycle #1 -- ++(0,0,-\width) -- ++(0,-\height,0) node[pos=0.6,right,outer sep=-3pt] {\tiny \heightlabel} -- ++(0,0,\width)  node[pos=0.5,below] {\tiny \widthlabel} -- cycle  #1 -- ++(-\depth,0,0) -- ++(0,0,-\width) -- ++(\depth,0,0) -- cycle;
+	\end{scope}
+}
+
+\def\lenetparamnew#1#2#3#4#5#6#7#8{
+	\begin{scope}
+		\edef\mycolor{#2}
+		\edef\depth{#3}
+		\edef\height{#4}
+		\edef\width{#5}
+		\edef\depthlabel{#8}
+		\edef\heightlabel{#7}
+		\edef\sep{#6}
+		\draw[black,fill=\mycolor] #1 -- ++(-\depth,0,0) -- ++(0,-\height,0) -- ++(\depth,0,0) -- cycle #1 -- ++(0,0,-\width) -- ++(0,-\height,0) node[pos=0.9,above,outer sep=-13 pt] {\tiny \heightlabel} node[pos=0.9,above,outer sep=-20 pt] {\tiny \depthlabel} -- ++(0,0,\width)  -- cycle  #1 -- ++(-\depth,0,0) -- ++(0,0,-\width) -- ++(\depth,0,0) -- cycle;
+	\end{scope}
+}
+\def\lenetparam#1#2#3#4#5#6#7#8{
+	\begin{scope}
+		\edef\mycolor{#2}
+		\edef\depth{#3}
+		\edef\height{#4}
+		\edef\width{#5}
+		\edef\depthlabel{#6}
+		\edef\heightlabel{#7}
+		\edef\widthlabel{#8}
+		\draw[black] #1 -- ++(-\depth,0,0) -- ++(0,-\height,0) -- ++(\depth,0,0) node[pos=0.5,above,outer sep=-28pt] {\tiny \depthlabel} node[pos=0.6,above,outer sep=-35pt] {\tiny \heightlabel} node[pos=0.5,above,outer sep=-42] {\tiny \widthlabel}  -- cycle #1 -- ++(0,0,-\width) -- ++(0,-\height,0)  -- ++(0,0,\width) -- cycle  #1 -- ++(-\depth,0,0) -- ++(0,0,-\width) -- ++(\depth,0,0) -- cycle;
+	\end{scope}
+}
+
+\def\kernel#1#2#3#4#5#6{
+	\begin{scope}
+		\edef\mycolor{#2}
+		\edef\depth{#3}
+		\edef\height{#4}
+		\edef\width{#5}
+		\draw[black,fill=\mycolor] #1 -- ++(-\depth,0,0) -- ++(0,-\height,0) -- ++(\depth,0,0) -- cycle #1 -- ++(0,0,-\width) -- ++(0,-\height,0) -- ++(0,0,\width) -- cycle  #1 -- ++(-\depth,0,0) -- ++(0,0,-\width) -- ++(\depth,0,0) -- cycle;
+		\draw[dashed] #1 -- #6 #1++(0,0,-\width) -- #6 #1++(0,-\height,0) -- #6 #1++(0,-\height,-\width) -- #6;
+	\end{scope}
+}
+\def\kernellabel#1#2#3#4#5#6#7#8#9{
+	%#6 is target pixel
+	\begin{scope}
+		\edef\mycolor{#2}
+		\edef\depth{#3}
+		\edef\height{#4}
+		\edef\width{#5}
+		\edef\depthlabel{#7}
+		\edef\heightlabel{#8}
+		\edef\widthlabel{#9}
+		\draw[black,fill=\mycolor] #1 -- ++(-\depth,0,0) -- ++(0,-\height,0) -- ++(\depth,0,0) node[pos=0.5,below] {\tiny \depthlabel} -- cycle #1 -- ++(0,0,-\width) -- ++(0,-\height,0) node[pos=0.5,right] {\tiny \heightlabel} -- ++(0,0,\width)  node[pos=0.5,below] {\tiny \widthlabel} -- cycle  #1 -- ++(-\depth,0,0) -- ++(0,0,-\width) -- ++(\depth,0,0) -- cycle;
+		\draw[dashed] #1 -- #6 #1++(0,0,-\width) -- #6 #1++(0,-\height,0) -- #6 #1++(0,-\height,-\width) -- #6;
+	\end{scope}
+}
+
+
+\def\mybox#1#2#3#4#5#6{
+	\begin{scope}
+		\edef\mycolor{#2}
+		\edef\depth{#3}
+		\edef\height{#4}
+		\edef\width{#5}
+		\edef\depthlabel{#6}
+		\draw[black,fill=\mycolor] #1 -- ++(-\depth,0,0) -- ++(0,-\height,0) -- ++(\depth,0,0) node[pos=0.5,below] {\tiny \depthlabel} -- cycle #1 -- ++(0,0,-\width) -- ++(0,-\height,0) -- ++(0,0,\width) -- cycle  #1 -- ++(-\depth,0,0) -- ++(0,0,-\width) -- ++(\depth,0,0) -- cycle;
+	\end{scope}
+}
+
+\def\mylabel#1#2#3#4#5#6#7#8{
+	\begin{scope}
+		\edef\mycolor{#2}
+		\edef\depth{#3}
+		\edef\height{#4}
+		\edef\width{#5}
+		\edef\depthlabel{#6}
+		\edef\heightlabel{#7}
+		\edef\widthlabel{#8}
+		\draw[black,fill=\mycolor] #1 -- ++(-\depth,0,0) node[pos=0.5,below] {\tiny \depthlabel} node[pos=0.5,below,outer sep=7pt] {\tiny \widthlabel} -- ++(0,-\height,0) -- ++(\depth,0,0) node[pos=0.5,above] {\tiny \heightlabel} -- cycle #1 -- ++(0,0,-\width) -- ++(0,-\height,0) -- ++(0,0,\width) -- cycle  #1 -- ++(-\depth,0,0) -- ++(0,0,-\width) -- ++(\depth,0,0) -- cycle;
+	\end{scope}
+}
+
+\def\triangle#1#2#3{
+	\begin{scope}
+		\edef\xa{#1}
+		\edef\ya{#2}
+		\edef\mycolor{#3}
+		\draw[black,fill=\mycolor] (\xa,\ya) -- ($(\xa,\ya)+(0.2,0)$) -- ($(\xa,\ya)+(0.1,0.2)$) -- (\xa,\ya);
+	\end{scope}
+}
+	
+		
+		
+\maketitle
+%\centering
+
+%\input{utils/acknowledgement}
+
+\foreach \n in {1, 2, 3, 4, 5}
+   	{\input{modules/Module\n/Lecture11_\n}}
+										
+%\input{modules/Appendix}
+
+\end{document}

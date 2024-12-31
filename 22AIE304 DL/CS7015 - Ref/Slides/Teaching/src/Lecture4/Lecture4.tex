@@ -1,0 +1,144 @@
+%% 
+%%  An UIT Edition example
+%% 
+%%  Example 04-27-26 on page 146.
+%% 
+%%  Copyright (C) 2012 Vo\ss 
+%% 
+%%  It may be distributed and/or modified under the conditions
+%%  of the LaTeX Project Public License, either version 1.3
+%%  of this license or (at your option) any later version.
+%% 
+%%  See http://www.latex-project.org/lppl.txt for details.
+%% 
+
+% Show page(s) 1,2,3
+
+%% ==== 
+\documentclass[serif,aspectratio=169]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage{array}
+\usepackage{stackengine}
+
+%\StartShownPreambleCommands
+% \usepackage{esint}
+\usepackage[british]{babel}
+\usetheme{Warsaw}
+\usecolortheme{rose}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\usepackage{mathrsfs}
+\usepackage{caption}
+\usepackage{gensymb}
+\usepackage{color}
+\usepackage{url}
+\usepackage{tikz}
+\usetikzlibrary{shapes,backgrounds,calc,arrows.meta}
+
+\usepackage[ruled]{algorithm2e}
+\usepackage{animate} 
+\usepackage{bbm}
+
+\addtobeamertemplate{navigation symbols}{}{%
+  \usebeamerfont{footline}%
+  \usebeamercolor[fg]{footline}%
+  \hspace{1em}%
+  \insertframenumber/\inserttotalframenumber
+}
+
+\renewcommand{\thealgocf}{}
+
+\makeatletter
+\newcommand\titlegraphicii[1]{\def\inserttitlegraphicii{#1}}
+\titlegraphicii{}
+\setbeamertemplate{title page}
+{
+  \vspace{0.3in}
+  \vbox{}
+  \begin{centering}
+  \begin{beamercolorbox}[sep=8pt,center]{title}
+    \usebeamerfont{title}\inserttitle\par%
+    \ifx\insertsubtitle\@empty%
+    \else%
+    \vskip0.25em%
+    {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+    \fi%     
+  \end{beamercolorbox}%
+  \vskip1em\par
+  \begin{beamercolorbox}[sep=8pt,center]{date}
+    \usebeamerfont{date}\insertdate
+  \end{beamercolorbox}%\vskip0.5em
+  \begin{beamercolorbox}[sep=8pt,center]{author}
+    \usebeamerfont{author}\insertauthor
+  \end{beamercolorbox}
+  \begin{beamercolorbox}[sep=8pt,center]{institute}
+    \usebeamerfont{institute}\insertinstitute
+  \end{beamercolorbox}
+  \end{centering}
+  %\vfill
+}
+\makeatother
+%\author{Anirban Laha and Preksha Nema \\\vspace{0.2in} Presented By: Mitesh M. Khapra}
+\author{Mitesh M. Khapra}
+\title{CS7015 (Deep Learning) : Lecture 4}
+\subtitle{Feedforward Neural Networks, Backpropagation}
+\institute{Department of Computer Science and Engineering\\ Indian Institute of Technology Madras}
+\date{}
+\titlegraphic{\includegraphics[height=1cm,width=2cm]{images/iitm_logo.png}}
+
+\newcommand\myheading[1]{%
+\par\bigskip
+{\Large\bfseries#1}\par\smallskip}
+
+
+\graphicspath{{./images/}}
+
+\renewcommand{\thefootnote}{$\star$}
+
+\tikzset{
+  o/.style={
+      shorten >=#1,
+      decoration={
+          markings,
+          mark={
+              at position 1
+              with {
+                  \draw circle [radius=#1];
+                }
+            }
+        },
+      postaction=decorate
+    },
+  o/.default=2pt
+}
+
+\newcommand\derivative[5]{%
+  \tkzDefPointByFct[draw](#1) \tkzGetPoint{start}
+  \tkzDefPointByFct[draw](#2) \tkzGetPoint{end}
+  \draw[thin,|-|,yshift=-3pt] (start) -- node[black,fill=white,#5] {#3}(start-|end);
+  \draw[thin,|-|,xshift=3pt] (start-|end) -- node[black,fill=white,right] {#4}(end);
+}
+\setcounter{MaxMatrixCols}{20}
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+\title{CS7015 (Deep Learning): Lecture 4}
+\author{Mitesh M. Khapra}
+\begin{document}
+  \maketitle
+
+  %Slide 02
+  \begin{frame}
+    \begin{block}{References/Acknowledgments}
+      See the excellent videos by Hugo Larochelle on Backpropagation
+    \end{block}
+  \end{frame}
+
+  \foreach \n in {1,...,9}{\include{modules/Module\n/Lecture4_\n}}
+\end{document}

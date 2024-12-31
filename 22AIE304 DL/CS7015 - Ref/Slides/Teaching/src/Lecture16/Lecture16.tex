@@ -1,0 +1,129 @@
+
+\PassOptionsToClass{}{beamer}
+\documentclass[serif,aspectratio=169]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage{colortbl}
+
+%\StartShownPreambleCommands
+\usepackage{amsmath,esint}
+%\usepackage[british]{babel}
+\usetheme{Warsaw}
+\usecolortheme{rose}
+\usepackage{amsfonts,amssymb}
+%\usetheme{metropolis}
+%\usepackage{appendixnumberbeamer}
+
+%\StopShownPreambleCommands
+\usepackage{pgfplots}
+\usepackage{ mathrsfs }
+\usepackage{xcolor}
+\usepackage[normalem]{ulem}
+\usepackage{gensymb}
+\usepackage{color}
+\usetikzlibrary{shapes,backgrounds,calc, positioning}
+
+\usetikzlibrary{matrix,chains,positioning,decorations.pathreplacing,arrows}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{intersections}
+
+\usepackage{tkz-euclide}
+\usetkzobj{all}
+\usepackage{tkz-fct}
+\usetikzlibrary{calc}
+
+\usepackage[ruled]{algorithm2e}
+\usepackage{tikz}
+%
+\usepackage{polyglossia}
+\setdefaultlanguage{english}
+\setotherlanguage{sanskrit}
+
+\usepackage{utils/style}
+
+\usepackage{fontspec}
+\usepackage[language=english,autolang=langname]{biblatex}
+\newfontfamily{\hin}[Path=utils/,Extension=.ttf]{Devanagari New}%[Script=Devanagari]
+
+\usepackage{animate}
+\usepackage{ragged2e}
+\usepackage{bbm}
+\usepackage{soul,color}
+\newcommand{\highlight}[1]{%
+  \colorbox{red!50}{$\displaystyle#1$}}
+\newcommand{\borderColor}{white}
+\newcommand{\forefillColor}{blue!20!black!30!green}
+\newcommand{\toprsidefillcolor}{green!40}
+
+\DeclareMathOperator*{\minimize}{minimize}
+
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/\inserttotalframenumber
+}
+
+\renewcommand{\thealgocf}{}
+\makeatletter
+\newcommand\titlegraphicii[1]{\def\inserttitlegraphicii{#1}}
+\titlegraphicii{}
+\setbeamertemplate{title page}
+{
+ \vspace{0.3in}
+ \vbox{}
+  %{\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\hfill\inserttitlegraphicii\par}
+ \begin{centering}
+   \begin{beamercolorbox}[sep=8pt,center]{title}
+     \usebeamerfont{title}\inserttitle\par%
+     \ifx\insertsubtitle\@empty%
+     \else%
+       \vskip0.25em%
+       {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+     \fi%
+   \end{beamercolorbox}%
+   \vskip1em\par
+   \begin{beamercolorbox}[sep=8pt,center]{date}
+     \usebeamerfont{date}\insertdate
+   \end{beamercolorbox}%\vskip0.5em
+   \begin{beamercolorbox}[sep=8pt,center]{author}
+     \usebeamerfont{author}\insertauthor
+   \end{beamercolorbox}
+   \begin{beamercolorbox}[sep=8pt,center]{institute}
+     \usebeamerfont{institute}\insertinstitute
+   \end{beamercolorbox}
+ \end{centering}
+ %\vfill
+}
+\makeatother
+%\author{Anirban Laha and Preksha Nema \\\vspace{0.2in} Presented By: Mitesh M. Khapra}
+\author{Mitesh M. Khapra}
+\title{CS7015 (Deep Learning) : Lecture 16}
+\subtitle{Encoder Decoder Models, Attention Mechanism}
+\institute{Department of Computer Science and Engineering\\ Indian Institute of Technology Madras}
+\date{}
+\titlegraphic{\includegraphics[height=1cm,width=2cm]{images/iitm_logo.png}}
+
+% \addtobeamertemplate{navigation symbols}{}{%
+%     \usebeamerfont{footline}%
+%     \usebeamercolor[fg]{footline}%
+%     \hspace{1em}%
+%     \insertframenumber/\inserttotalframenumber
+% }
+
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+\begin{document}
+\maketitle
+\centering
+
+\input{modules/Module1/Lecture16_1}
+\input{modules/Module2/Lecture16_2}
+\input{modules/Module3/Lecture16_3}
+\input{modules/Module4/Lecture16_4}
+\input{modules/Module5/Lecture16_5}
+
+\end{document}

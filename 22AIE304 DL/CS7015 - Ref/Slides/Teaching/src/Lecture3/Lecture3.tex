@@ -1,0 +1,167 @@
+%% 
+%%  An UIT Edition example
+%% 
+%%  Example 04-27-26 on page 146.
+%% 
+%%  Copyright (C) 2012 Vo\ss 
+%% 
+%%  It may be distributed and/or modified under the conditions
+%%  of the LaTeX Project Public License, either version 1.3
+%%  of this license or (at your option) any later version.
+%% 
+%%  See http://www.latex-project.org/lppl.txt for details.
+%% 
+
+% Show page(s) 1,2,3
+
+%% ==== 
+\PassOptionsToClass{}{beamer}
+\documentclass[serif, aspectratio=169]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+
+%\StartShownPreambleCommands
+\usepackage{amsmath,esint}
+\usepackage[british]{babel}
+\usetheme{Warsaw}
+\usecolortheme{rose}
+
+%\usetheme{metropolis}
+%\usepackage{appendixnumberbeamer}
+
+%\StopShownPreambleCommands
+\usepackage{pgfplots}
+\usepackage{ mathrsfs }
+\usepackage{caption}
+\usepackage{ragged2e}
+\usepackage{gensymb}
+\usepackage{color}
+\usepackage{url}
+\usetikzlibrary{shapes,backgrounds,calc}
+
+\usepackage{tkz-euclide}
+\usetkzobj{all}
+\usepackage{tkz-fct}  
+\usetikzlibrary{calc}
+\usepackage{tikz,calc}
+
+\usepackage[ruled]{algorithm2e}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{animate}
+\DeclareMathOperator*{\minimize}{minimize}
+
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/\inserttotalframenumber
+}
+
+\renewcommand{\thealgocf}{}
+
+\makeatletter
+\newcommand\titlegraphicii[1]{\def\inserttitlegraphicii{#1}}
+\titlegraphicii{}
+\setbeamertemplate{title page}
+{
+  \vspace{0.3in}
+  \vbox{}
+   %{\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\hfill\inserttitlegraphicii\par}
+  \begin{centering}
+    \begin{beamercolorbox}[sep=8pt,center]{title}
+      \usebeamerfont{title}\inserttitle\par%
+      \ifx\insertsubtitle\@empty%
+      \else%
+        \vskip0.25em%
+        {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+      \fi%     
+    \end{beamercolorbox}%
+    \vskip1em\par
+    \begin{beamercolorbox}[sep=8pt,center]{date}
+      \usebeamerfont{date}\insertdate
+    \end{beamercolorbox}%\vskip0.5em
+    \begin{beamercolorbox}[sep=8pt,center]{author}
+      \usebeamerfont{author}\insertauthor
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[sep=8pt,center]{institute}
+      \usebeamerfont{institute}\insertinstitute
+    \end{beamercolorbox}
+  \end{centering}
+  %\vfill
+}
+\makeatother
+%\author{Anirban Laha and Preksha Nema \\\vspace{0.2in} Presented By: Mitesh M. Khapra}
+\author{Mitesh M. Khapra}
+\title{CS7015 (Deep Learning) : Lecture 3}
+\subtitle{Sigmoid Neurons, Gradient Descent, Feedforward Neural Networks, Representation Power of Feedforward Neural Networks}
+\institute{Department of Computer Science and Engineering\\ Indian Institute of Technology Madras}
+\date{}
+\titlegraphic{\includegraphics[height=1cm,width=2cm]{images/iitm_logo.png}}
+%\titlegraphicii{\includegraphics[height=1cm,width=2cm]{logo2}}
+
+
+
+\newcommand\myheading[1]{%
+\par\bigskip
+{\Large\bfseries#1}\par\smallskip}
+
+
+\begin{document}
+
+\renewcommand{\thefootnote}{$\star$}
+
+\tikzset{
+	o/.style={
+			shorten >=#1,
+			decoration={
+					markings,
+					mark={
+							at position 1
+							with {
+									\draw circle [radius=#1];
+								}
+						}
+				},
+			postaction=decorate
+		},
+	o/.default=2pt
+}
+
+\newcommand\derivative[5]{%
+	\tkzDefPointByFct[draw](#1) \tkzGetPoint{start}
+	\tkzDefPointByFct[draw](#2) \tkzGetPoint{end}
+	\draw[thin,|-|,yshift=-3pt] (start) -- node[black,fill=white,#5] {#3}(start-|end);
+	\draw[thin,|-|,xshift=3pt] (start-|end) -- node[black,fill=white,right] {#4}(end);
+	%\draw[thin] (start) --(end); 
+}
+
+\maketitle
+
+
+\tikzstyle{input_neuron}=[circle,draw=red!50,fill=orange!10,thick,minimum size=1mm]
+\tikzstyle{hidden_neuron}=[circle,draw=blue!50,fill=blue!10,thick,minimum size=10mm]
+\tikzstyle{output_neuron}=[circle,draw=green!50,fill=green!20,thick,minimum size=4mm]
+
+\tikzstyle{input}=[circle,draw=black!50,fill=black!20,thick,minimum size=.2mm]
+\tikzstyle{neuron}=[circle,draw=blue!50,fill=blue!20,thick,minimum size=10mm]
+\tikzstyle{neuron1}=[circle,draw=blue!50,fill=cyan!10, thick,minimum size=10mm]
+
+
+\begin{frame}
+\begin{block}{Acknowledgements}
+\begin{itemize}\justifying
+  \item For Module 3.4, I have borrowed ideas from the videos by Ryan Harris on ``visualize backpropagation'' (available on youtube)
+  \item For Module 3.5, I have borrowed ideas from this excellent book \footnote{http://neuralnetworksanddeeplearning.com/chap4.html} which is available online
+  \item I am sure I would have been influenced and borrowed ideas from other sources and I apologize if I have failed to acknowledge them
+\end{itemize}
+\end{block}
+\end{frame}
+\include{modules/Module1/Lecture3_1}
+\include{modules/Module2/Lecture3_2}
+\include{modules/Module3/Lecture3_3}
+\include{modules/Module4/Lecture3_4}
+\include{modules/Module5/Lecture3_5}
+\end{document}
+
+

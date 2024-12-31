@@ -1,0 +1,163 @@
+\PassOptionsToClass{}{beamer}
+\documentclass[serif,aspectratio=169]{beamer}
+\usepackage[utf8]{inputenc}
+
+%\StartShownPreambleCommands
+\usepackage{amsmath,esint}
+\usepackage{amsfonts,amssymb}
+\usepackage[british]{babel}
+\usepackage{multicol}
+\usetheme{Warsaw}
+\usecolortheme{rose}
+\usepackage[normalem]{ulem}
+%\usetheme{metropolis}
+%\usepackage{appendixnumberbeamer}
+
+%\StopShownPreambleCommands
+\usepackage{pgfplots}
+
+\usepackage{ mathrsfs }
+\usepackage{hyperref}
+
+\usepackage{gensymb}
+\usepackage{color}
+\usepackage{tkz-euclide}
+\usetkzobj{all}
+\usepackage{tkz-fct}
+\usetikzlibrary{calc}
+\usepackage{tikz,calc}
+\usepackage{ragged2e}
+\usepackage[ruled]{algorithm2e}
+\usepackage{tikz}
+\usepackage{animate}
+\usepackage{adjustbox}
+\usepackage[labelformat=empty]{caption}
+\usepackage{blindtext}
+\usepackage{colortbl}
+\usepackage{mwe}
+\usepackage{bbm}
+\usepackage{soul,color}
+\usetikzlibrary{shapes,backgrounds,calc, positioning,3d}
+%\usetikzlibrary{arrows.meta}
+
+%\usepackage{utils/dtklogos}
+\usepackage{utils/style}
+
+%\usepackage{unicode-math}
+%\setmathfont{XITS Math}
+%\setmathfont[version=setB,StylisticSet=1]{XITS Math}
+
+\makeatletter
+
+
+\newcommand{\highlight}[1]{%
+  \colorbox{red!50}{$\displaystyle#1$}}
+
+\DeclareMathOperator*{\minimize}{minimize}
+
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/\inserttotalframenumber
+}
+
+\titlegraphicii{}
+\setbeamertemplate{title page}
+{
+  \vspace{0.3in}
+  \vbox{}
+   %{\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\hfill\inserttitlegraphicii\par}
+  \begin{centering}
+    \begin{beamercolorbox}[sep=8pt,center]{title}
+      \usebeamerfont{title}\inserttitle\par%
+      \ifx\insertsubtitle\@empty%
+      \else%
+        \vskip0.25em%
+        {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+      \fi%
+    \end{beamercolorbox}%
+    \vskip1em\par
+    \begin{beamercolorbox}[sep=8pt,center]{date}
+      \usebeamerfont{date}\insertdate
+    \end{beamercolorbox}%\vskip0.5em
+    \begin{beamercolorbox}[sep=8pt,center]{author}
+      \usebeamerfont{author}\insertauthor
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[sep=8pt,center]{institute}
+      \usebeamerfont{institute}\insertinstitute
+    \end{beamercolorbox}
+  \end{centering}
+  %\vfill
+}
+\makeatother
+
+\author{Mitesh M. Khapra}
+\title{CS7015 (Deep Learning) : Lecture 13}
+\subtitle{Visualizing Convolutional Neural Networks, Guided Backpropagation, Deep Dream, Deep Art, Fooling Convolutional Neural Networks}
+\institute{Department of Computer Science and Engineering\\ Indian Institute of Technology Madras}
+\date{}
+\titlegraphic{\includegraphics[height=1cm,width=2cm]{images/iitm_logo.png}}
+
+
+\newcommand{\borderColor}{white}
+\newcommand{\forefillColor}{blue!20!black!30!green}
+\newcommand{\toprsidefillcolor}{green!40}
+\newcommand{\firstrowcolor}{black}
+\newcommand{\secondrowcolor}{black}
+\newcommand{\thirdrowcolor}{black}
+\newcommand{\fourrowcolor}{black}
+
+
+\newcommand{\handmadecube}[5]{
+\pgfmathsetmacro{\width}{#1}
+\pgfmathsetmacro{\height}{#2}
+\pgfmathsetmacro{\ti}{#3}
+\pgfmathsetmacro{\x}{#4}
+\pgfmathsetmacro{\y}{#5}
+\pgfmathsetmacro{\yfactor}{0.9}
+\pgfmathsetmacro{\xfactor}{0.6}
+
+
+% % square
+\draw [-,draw=\borderColor] (\x-\width,\y) -- (\x,\y); % % x cahnge ->
+\draw [-,draw=\borderColor] (\x,\y) -- (\x,\y-\height); % % y change   |
+\draw [-,draw=\borderColor] (\x,\y-\height) -- (\x-\width,\y-\height); % % x change <-
+\draw [-,draw=\borderColor] (\x-\width,\y-\height) -- (\x-\width,\y); % % y change  |
+
+\draw  [draw=\borderColor,fill=\forefillColor] (\x-\width,\y)--(\x,\y) -- (\x,\y-\height) -- (\x-\width,\y-\height) --cycle ;
+
+\draw  [draw=\borderColor,fill=\toprsidefillcolor] (\x,\y) -- (\x+\xfactor*\ti,\y+\yfactor*\ti) -- (\x+\xfactor*\ti,\y+\yfactor*\ti-\height) -- (\x,\y-\height) --cycle ;
+
+\draw  [draw=\borderColor,fill=\toprsidefillcolor] (\x-\width,\y)--(\x,\y) -- (\x+\xfactor*\ti,\y+\yfactor*\ti) -- (\x+\xfactor*\ti-\width,\y+\yfactor*\ti) --cycle ;
+
+\draw [-,draw=\borderColor]   (\x,\y) -- (\x+\xfactor*\ti,\y+\yfactor*\ti);
+
+\draw [-,draw=\borderColor] (\x-\width,\y) -- (\x-\width+\xfactor*\ti,\y+\yfactor*\ti);
+
+\draw [-,draw=\borderColor] (\x-\width+\xfactor*\ti,\y+\yfactor*\ti) -- (\x+\xfactor*\ti,\y+\yfactor*\ti);
+
+\draw [-,draw=\borderColor] (\x+\xfactor*\ti,\y+\yfactor*\ti) -- (\x+\xfactor*\ti,\y+\yfactor*\ti-\height);
+
+\draw [-,draw=\borderColor] (\x,\y-\height) -- (\x+\xfactor*\ti,\y+\yfactor*\ti-\height);
+
+}
+
+\begin{document}
+\definecolor{myblue1}{cmyk}{90,0,0,0}
+\definecolor{myblue2}{cmyk}{95,0,0,0}
+\definecolor{myblue3}{cmyk}{97,0,0,0}
+\definecolor{myblue4}{cmyk}{92,0,0,0}
+
+
+\maketitle
+\centering
+
+\input{utils/acknowledgement}
+
+\foreach \n in {1,...,10}
+   	{\input{modules/Module\n/Lecture13_\n}}
+
+%\input{modules/Appendix}
+
+\end{document}

@@ -1,0 +1,20 @@
+\newcommand{\highlight}[1]{\colorbox{yellow}{$\displaystyle #1$}}
+\newcommand\Fontvi{\fontsize{9.5}{1}\selectfont}
+%%%%%%%
+\newcommand{\msout}[1]{\text{\sout{\ensuremath{#1}}}}
+\pgfplotsset{compat=1.8}
+
+\newcommand\myheading[1]{%
+\par\bigskip
+{\Large\bfseries#1}\par\smallskip}
+
+\makeatletter
+\newcommand\titlegraphicii[1]{\def\inserttitlegraphicii{#1}}
+
+\newcommand\derivative[5]{%
+	\tkzDefPointByFct[draw](#1) \tkzGetPoint{start}
+	\tkzDefPointByFct[draw](#2) \tkzGetPoint{end}
+	\draw[thin,|-|,yshift=-3pt] (start) -- node[black,fill=white,#5] {#3}(start-|end);  
+	\draw[thin,|-|,xshift=3pt] (start-|end) -- node[black,fill=white,right] {#4}(end); 
+	%\draw[thin] (start) --(end); 
+}

@@ -1,0 +1,15 @@
+
+\def\alpha{8} 
+
+\newcommand\myheading[1]{%
+\par\bigskip
+{\Large\bfseries#1}\par\smallskip}
+
+
+\newcommand\derivative[5]{%
+    \tkzDefPointByFct[draw](#1) \tkzGetPoint{start}
+  \tkzDefPointByFct[draw](#2) \tkzGetPoint{end}
+  \draw[thin,|-|,yshift=-3pt] (start) -- node[black,fill=white,#5] {#3}(start-|end);  
+  \draw[thin,|-|,xshift=3pt] (start-|end) -- node[black,fill=white,right] {#4}(end); 
+  %\draw[thin] (start) --(end); 
+}

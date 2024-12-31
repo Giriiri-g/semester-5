@@ -1,0 +1,165 @@
+%% 
+%%  An UIT Edition example
+%% 
+%%  Example 04-27-26 on page 146.
+%% 
+%%  Copyright (C) 2012 Vo\ss 
+%% 
+%%  It may be distributed and/or modified under the conditions
+%%  of the LaTeX Project Public License, either version 1.3
+%%  of this license or (at your option) any later version.
+%% 
+%%  See http://www.latex-project.org/lppl.txt for details.
+%% 
+
+% Show page(s) 1,2,3
+
+%% ==== 
+% \PassOptionsToClass{}{beamer}
+\documentclass[serif,aspectratio=169]{beamer}
+\usepackage[utf8]{inputenc}
+
+%\StartShownPreambleCommands
+\usepackage{amsmath,esint}
+\usepackage[british]{babel}
+\usetheme{Warsaw}
+\usecolortheme{rose}
+\usepackage{ragged2e}
+\usepackage{stackengine}
+\usepackage{graphicx}
+%\usetheme{metropolis}
+%\usepackage{appendixnumberbeamer}
+\usepackage{collectbox}
+%\StopShownPreambleCommands
+\usepackage{pgfplots}
+\usepackage{mathrsfs}
+\usepackage{xcolor}
+\usepackage{ulem}
+\usepackage{gensymb}
+\usepackage{color}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    % urlbordercolor=green,
+    linkcolor=white,
+    urlcolor=blue,
+}
+
+\usepackage{tkz-euclide}
+\usetkzobj{all}
+\usepackage{tkz-fct}  
+\usetikzlibrary{calc, arrows, automata, angles, quotes, decorations}
+
+\usepackage[ruled]{algorithm2e}
+\usepackage{tikz}
+
+\usepackage{animate}
+\DeclareMathOperator*{\minimize}{minimize}
+
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/\inserttotalframenumber
+}
+
+\usetikzlibrary{svg.path}
+\usetikzlibrary{decorations.pathreplacing,decorations.markings}
+\newcounter{pos}
+\tikzset{
+  initcounter/.code={\setcounter{pos}{0}},
+  style between/.style n args={3}{
+    postaction={
+      initcounter,
+      decorate,
+      decoration={
+        show path construction,
+        curveto code={
+          \addtocounter{pos}{1}
+          \pgfmathtruncatemacro{\min}{#1 - 1}
+          \ifthenelse{\thepos < #2 \AND \thepos > \min}{
+            \draw[#3]
+            (\tikzinputsegmentfirst)
+            ..
+            controls (\tikzinputsegmentsupporta) and (\tikzinputsegmentsupportb)
+            ..
+            (\tikzinputsegmentlast);
+          }{}
+        }
+      }
+    },
+  },
+}
+
+\newcommand\myheading[1]{%
+\par\bigskip
+{\Large\bfseries#1}\par\smallskip}
+
+\makeatletter
+\newcommand\titlegraphicii[1]{\def\inserttitlegraphicii{#1}}
+\titlegraphicii{}
+\setbeamertemplate{title page}
+{
+  \vspace{0.3in}
+  \vbox{}
+   %{\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\hfill\inserttitlegraphicii\par}
+  \begin{centering}
+    \begin{beamercolorbox}[sep=8pt,center]{title}
+      \usebeamerfont{title}\inserttitle\par%
+      \ifx\insertsubtitle\@empty%
+      \else%
+        \vskip0.25em%
+        {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+      \fi%     
+    \end{beamercolorbox}%
+    \vskip1em\par
+    \begin{beamercolorbox}[sep=8pt,center]{date}
+      \usebeamerfont{date}\insertdate
+    \end{beamercolorbox}%\vskip0.5em
+    \begin{beamercolorbox}[sep=8pt,center]{author}
+      \usebeamerfont{author}\insertauthor
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[sep=8pt,center]{institute}
+      \usebeamerfont{institute}\insertinstitute
+    \end{beamercolorbox}
+  \end{centering}
+  %\vfill
+}
+\makeatother
+
+\title{CS7015 (Deep Learning) : Lecture 6}
+\subtitle{Eigen Values, Eigen Vectors, Eigen Value Decomposition, Principal Component Analysis, Singular Value Decomposition}
+\institute{Department of Computer Science and Engineering\\ Indian Institute of Technology Madras}
+\date{}
+\titlegraphic{\includegraphics[height=1cm,width=2cm]{images/iitm_logo.png}}
+
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+\begin{document}
+
+\newcommand\derivative[5]{%
+  \tkzDefPointByFct[draw](#1) \tkzGetPoint{start}
+  \tkzDefPointByFct[draw](#2) \tkzGetPoint{end}
+  \draw[thin,|-|,yshift=-3pt] (start) -- node[black,fill=white,#5] {#3}(start-|end);
+  \draw[thin,|-|,xshift=3pt] (start-|end) -- node[black,fill=white,right] {#4}(end);
+  %\draw[thin] (start) --(end); 
+}
+
+\newcommand{\mybox}{%
+  \collectbox{%
+    \setlength{\fboxsep}{1pt}%
+    \fbox{\BOXCONTENT}%
+  }%
+}
+
+
+\author{Prof. Mitesh M. Khapra}
+\maketitle
+
+\foreach \n in {1,...,8}{\include{modules/Module\n/Lecture6_\n}}
+%----------------------------------------------------------------------------------------------------------
+
+\end{document}

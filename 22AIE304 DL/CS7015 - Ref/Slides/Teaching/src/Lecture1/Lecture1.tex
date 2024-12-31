@@ -1,0 +1,124 @@
+\documentclass[aspectratio=169]{beamer}
+\usetheme{Warsaw}
+\usecolortheme{rose}
+\usepackage{tikz}
+\usepackage[super,square]{natbib}
+\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[labelformat=empty]{caption}
+\renewcommand{\thefootnote}{\roman{footnote}} 
+\makeatletter
+\newcommand\titlegraphicii[1]{\def\inserttitlegraphicii{#1}}
+\titlegraphicii{}
+
+\setbeamertemplate{title page}
+{
+	\vspace{0.3in}
+  \vbox{}
+   %{\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\hfill\inserttitlegraphicii\par}
+  \begin{centering}
+    \begin{beamercolorbox}[sep=8pt,center]{title}
+      \usebeamerfont{title}\inserttitle\par%
+      \ifx\insertsubtitle\@empty%
+      \else%
+        \vskip0.25em%
+        {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+      \fi%     
+    \end{beamercolorbox}%
+    \vskip1em\par
+    \begin{beamercolorbox}[sep=8pt,center]{date}
+      \usebeamerfont{date}\insertdate
+    \end{beamercolorbox}%\vskip0.5em
+    \begin{beamercolorbox}[sep=8pt,center]{author}
+      \usebeamerfont{author}\insertauthor
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[sep=8pt,center]{institute}
+      \usebeamerfont{institute}\insertinstitute
+    \end{beamercolorbox}
+  \end{centering}
+  %\vfill
+}
+\makeatother
+%\author{Anirban Laha and Preksha Nema \\\vspace{0.2in} Presented By: Mitesh M. Khapra}
+\author{Mitesh M. Khapra}
+\title{CS7015 (Deep Learning) : Lecture 1}
+\subtitle{(Partial/Brief) History of Deep Learning}
+\institute{Department of Computer Science and Engineering\\ Indian Institute of Technology Madras}
+\titlegraphic{\includegraphics[height=1cm,width=2cm]{images/iitm_logo.png}}
+%\titlegraphicii{\includegraphics[height=1cm,width=2cm]{logo2}}
+\date{}
+
+\newcommand\myheading[1]{%
+  \par\bigskip
+  {\Large\bfseries#1}\par\smallskip}
+
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/\inserttotalframenumber
+}
+
+\setbeamertemplate{headline}{}
+\begin{document}
+
+\begin{frame}[plain]
+	\maketitle
+\end{frame}
+
+\begin{frame}
+	\begin{block}{Acknowledgements}
+		\begin{itemize}
+			\item Most of this material is based on the article ``Deep Learning in Neural Networks: An Overview" by J. Schmidhuber \cite{DBLP:journals/nn/Schmidhuber15}
+			\item The errors, if any, are due to me and I apologize for them
+			\item Feel free to contact  me if you think certain portions need to be corrected (please provide appropriate references)
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\include{modules/Module1/Lecture1_1}
+
+\include{modules/Module2/Lecture1_2}
+
+\include{modules/Module3/Lecture1_3}
+
+\include{modules/Module4/Lecture1_4}
+
+\include{modules/Module5/Lecture1_5}
+
+\include{modules/Module6/Lecture1_6}
+
+\include{modules/Module7/Lecture1_7}
+
+\include{modules/Module8/Lecture1_8}
+
+\include{modules/Module9/Lecture1_9}
+
+
+\begin{frame}
+	\centering
+	\small{\url{https://github.com/kjw0612/awesome-rnn}}
+\end{frame}
+
+\begin{frame}
+	\begin{figure}[ht]
+		\centering
+		\fcolorbox{black}{gray}{\includegraphics[width=1\linewidth]{images/Deep_learning_MarketMap_sept2016_featured}}
+		%      \label{fig:startups}
+		%      \caption*{The Deep Learning Market Map}
+
+	\end{figure}
+	\footnotetext[1]{Source: https://www.cbinsights.com/blog/deep-learning-ai-startups-market-map-company-list/}
+\end{frame}
+
+
+
+\begin{frame}[t, allowframebreaks]
+	\frametitle{References}
+	%\nocite{*}
+	\tiny
+	\bibliographystyle{unsrt}
+	\bibliography{ref}
+\end{frame}
+\end{document}
